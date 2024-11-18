@@ -1,0 +1,79 @@
+<SignupScreen>:
+    name: "signup_screen"
+    MDCard:
+        size_hint: None, None
+        size: 300, 400
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        elevation: 10
+        padding: 20
+        spacing: 25
+
+        orientation: "vertical"
+
+        MDLabel:
+            text: "Welcome"
+            font_size: 40
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y: 15
+
+        MDTextField:
+            id: user
+            mode: "round"
+            hint_text: "Username"
+            icon_left: "account"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            id: email
+            mode: "round"
+            hint_text: "Email"
+            icon_left: "email"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+
+        MDTextField:
+            id: password
+            mode: "round"
+            hint_text: "Password"
+            icon_left: "eye-off"
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {"center_x": 0.5}
+            password: True
+
+        MDRoundFlatButton:
+            text: "Sign up"
+            font_size: 15
+            pos_hint: {"center_x": 0.5}
+            on_press: root.create_account(user.text, email.text, password.text)
+
+        MDBoxLayout:
+            orientation: "horizontal"
+            spacing: 2
+
+            Widget:
+                size_hint_x: None
+                width: 46
+
+            MDLabel:
+                text: "Already have an account?"
+                font_size: 11
+                halign: "center"
+                size_hint_y: None
+                height: self.texture_size[1]
+
+            MDTextButton:
+                text: "Log in"
+                font_size: 11
+
+            Widget:
+                size_hint_x: None
+                width: 46
