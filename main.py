@@ -18,7 +18,7 @@ class LoginScreen(Screen):
             print("Account is valid and was found")
 
 # Database connection
-successful_conn = False
+successful_conn = True
 try:
     conn, cursor = connect_to_db()
 except:
