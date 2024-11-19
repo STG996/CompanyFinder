@@ -21,3 +21,15 @@ def add_account(conn, cursor, username, email, password):
     conn.commit()
 
     print(f"Created account:\nUsername:\t{username}\nEmail:\t{email}\nPassword:\t{password}")
+
+# Check account
+def check_account(conn, cursor, email, password):
+    cursor.execute(
+        f"SELECT * FROM account WHERE email = '{email}' AND password = '{password}';"
+    )
+    account = cursor.fetchall()
+
+    if len(account) == 1:
+        return True
+    else:
+        return False

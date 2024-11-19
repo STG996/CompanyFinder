@@ -1,3 +1,5 @@
+# Design code for signup screen
+
 <SignupScreen>:
     name: "signup_screen"
     MDCard:
@@ -10,6 +12,7 @@
 
         orientation: "vertical"
 
+        # "Welcome" text
         MDLabel:
             text: "Welcome"
             font_size: 40
@@ -18,6 +21,7 @@
             height: self.texture_size[1]
             padding_y: 15
 
+        # Username text field
         MDTextField:
             id: user
             mode: "round"
@@ -28,6 +32,7 @@
             font_size: 18
             pos_hint: {"center_x": 0.5}
 
+        # Email text field
         MDTextField:
             id: email
             mode: "round"
@@ -38,6 +43,7 @@
             font_size: 18
             pos_hint: {"center_x": 0.5}
 
+        # Password text field
         MDTextField:
             id: password
             mode: "round"
@@ -49,12 +55,14 @@
             pos_hint: {"center_x": 0.5}
             password: True
 
+        # Signup button, bound to db
         MDRoundFlatButton:
             text: "Sign up"
             font_size: 15
             pos_hint: {"center_x": 0.5}
             on_press: root.create_account(user.text, email.text, password.text)
 
+        # Navigation to login if necessary
         MDBoxLayout:
             orientation: "horizontal"
             spacing: 2
@@ -70,9 +78,13 @@
                 size_hint_y: None
                 height: self.texture_size[1]
 
+            # Button redirecting to login screen
             MDTextButton:
                 text: "Log in"
                 font_size: 11
+                on_press:
+                    app.root.current = "login_screen"
+                    root.manager.transition.direction = "left"
 
             Widget:
                 size_hint_x: None
