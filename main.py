@@ -18,7 +18,11 @@ class LoginScreen(Screen):
             print("Account is valid and was found")
 
 # Database connection
-conn, cursor = connect_to_db()
+successful_conn = False
+try:
+    conn, cursor = connect_to_db()
+except:
+    successful_conn = False
 
 # Main app
 class MainApp(MDApp):
@@ -31,7 +35,7 @@ class MainApp(MDApp):
         # Loading screen design files
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
-        return Builder.load_file("main.kv")
+        return Builder.load_file("main.kv") if successful_conn else Builder.load_file("screens/no_internet.kv")
 
 
 if __name__ == "__main__":

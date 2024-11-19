@@ -1,0 +1,29 @@
+Screen:
+    MDBoxLayout:
+        orientation: "vertical"
+        padding: 25
+        spacing: 10
+
+        Widget:
+            size_hint_y: None
+            height: 100
+
+        MDIcon:
+            icon: "wifi-off"
+            pos_hint: {"center_x": 0.5}
+            # TODO: Make icon larger
+
+        MDLabel:
+            text: "No internet..."
+            font_size: 40
+            halign: "center"
+            pos_hint: {"center_x": 0.5}
+        MDLabel:
+            text: "Connection to database failed. Establish connection then try again."
+            font_size: 15
+            halign: "center"
+            pos_hint: {"center_x": 0.5}
+
+        Widget:
+            size_hint_y: None
+            height: 300
