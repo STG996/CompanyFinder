@@ -3,17 +3,23 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 from conn.db_connection import connect_to_db, add_account, check_account
+from email_regex import check_email_validity
 
 
 # Screens
 class SignupScreen(Screen):
     def create_account(self, username, email, password):
-        add_account(conn, cursor, username, email, password)
+        is_email_valid = check_email_validity(email)
+        if is_email_valid:
+            add_account(conn, cursor, username, email, password)
+        else:
+            # TODO: ADD UIX TO SHOW INVALID EMAIL
+            pass
 
 class LoginScreen(Screen):
     def check_signin(self, email, password):
-        isValid = check_account(conn, cursor, email, password)
-        if isValid:
+        is_valid = check_account(conn, cursor, email, password)
+        if is_valid:
             # Do next step
             print("Account is valid and was found")
 
