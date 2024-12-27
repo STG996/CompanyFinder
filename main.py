@@ -21,16 +21,19 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 import email_regex
+from account import Account
 from conn.db_connection import connect_to_db, add_account, check_account
 from email_regex import check_email_validity
 
+account = Account()
 
 # Screens
 class SignupScreen(Screen):
     def create_account(self, username, email, password):
         is_email_valid = check_email_validity(email)
         if is_email_valid:
-            add_account(conn, cursor, username, email, password)
+            add_account(conn, cursor, username, email, password) # Sign in server side
+            account.add_account_to_file(username, email, password) # Sign in client side
         else:
             self.ids.error = True
             self.ids.email.helper_text = "Invalid email"
@@ -40,9 +43,10 @@ class SignupScreen(Screen):
 
 class LoginScreen(Screen):
     def check_signin(self, email, password):
-        is_found = check_account(conn, cursor, email, password)
-        if is_found:
+        accounts_found = check_account(conn, cursor, email, password)
+        if len(accounts_found) == 1:
             print("Account was found")
+            account.add_account_to_file(accounts_found[0][0], email, password) #Sign in client side
         else:
             print("Account not found")
 

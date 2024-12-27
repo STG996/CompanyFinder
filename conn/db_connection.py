@@ -29,7 +29,4 @@ def check_account(conn, cursor, email, password):
     )
     account = cursor.fetchall()
 
-    if len(account) == 1:
-        return True
-    else:
-        return False
+    return account
