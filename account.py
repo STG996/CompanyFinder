@@ -48,7 +48,7 @@ class EncryptedAccount(Account):
         self.__key = None
 
     def __generate_key(self):
-        length_required = len(self._username) + len(self._email) + len(self._password)
+        length_required = len(self._username) + len(self._email) + len(self._password) + 5
         self.__key = "".join(random.choice(ALPHABET) for x in range(length_required))
 
     def __encrypt_file(self):
@@ -56,10 +56,36 @@ class EncryptedAccount(Account):
         plaintext = file.read()
         file.close()
 
+        self.__generate_key()
+
         ciphertext = ""
         for count, character in enumerate(plaintext):
             ciphertext += chr(ord(character) ^ ord(self.__key[count]))
 
         file = open(self._file_name, "w")
-        file.write(self.__key + "BREAKER" + ciphertext) # breaker is placeholder TODO: make better breaker
+        file.write(ciphertext + "XXX" + self.__key)
+        file.close()
+
+    def __decrypt_file(self):
+        file = open(self._file_name, "r")
+        ciphertext = file.read()
+        file.close()
+
+        plaintext = ""
+        add_to_plaintext_or_key = "plaintext"
+        for count, character in enumerate(ciphertext):
+            for i in range(3):
+                if ciphertext[count+i] == "X":
+                    continue
+                break
+            else:
+                add_to_plaintext_or_key = "key"
+
+            if add_to_plaintext_or_key == "plaintext":
+                plaintext += chr( ord(character) ^ ord(self.__key[count]) )
+            else:
+                self.__key = ciphertext[count+3:]
+
+        file = open(self._file_name, "w")
+        file.write(plaintext)
         file.close()
