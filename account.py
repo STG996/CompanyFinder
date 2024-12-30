@@ -7,7 +7,6 @@ PASSWORD_INDEX = 3
 
 ALPHABET = "".join([chr(x) for x in range(ord("A"), ord("Z")+1)])
 
-
 class Account:
     def __init__(self):
         self._username = None
@@ -33,7 +32,9 @@ class Account:
         file = open(self._file_name, "w")
         file.write(f"\n{username}\n{email}\n{password}\n")
         file.close()
-        self.retrieve_account_from_file()
+        self._username = username
+        self._email = email
+        self._password = password
 
     def remove_account_from_file(self):
         os.remove(self._file_name)
@@ -89,3 +90,11 @@ class EncryptedAccount(Account):
         file = open(self._file_name, "w")
         file.write(plaintext)
         file.close()
+
+    def retrieve_account_from_file(self):
+        self.__decrypt_file()
+        super().retrieve_account_from_file()
+
+    def add_account_to_file(self, username, email, password):
+        super().add_account_to_file(username, email, password)
+        self.__encrypt_file()
