@@ -21,11 +21,11 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 import email_regex
-from account import Account
+from account import EncryptedAccount
 from conn.db_connection import connect_to_db, add_account, check_account
 from email_regex import check_email_validity
 
-account = Account()
+account = EncryptedAccount()
 
 # Screens
 class SignupScreen(Screen):
