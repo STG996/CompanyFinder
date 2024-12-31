@@ -22,10 +22,11 @@ from kivymd.app import MDApp
 
 import email_regex
 from account import EncryptedAccount
-from conn.db_connection import connect_to_db, add_account, check_account
+from conn.db_connection import Database
 from email_regex import check_email_validity
 
 account = EncryptedAccount()
+database = Database()
 
 # Screens
 class SignupScreen(Screen):
@@ -55,13 +56,6 @@ class LoginScreen(Screen):
 
 class HomeScreen(Screen):
     pass
-
-# Database connection
-successful_conn = True
-try:
-    conn, cursor = connect_to_db()
-except:
-    successful_conn = False
 
 # Main app
 class MainApp(MDApp):

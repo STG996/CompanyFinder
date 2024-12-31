@@ -1,5 +1,8 @@
-import mysql.connector
+import sqlite3
 
+DATABASE_PATH = "conn/main.db"
+
+'''
 # Initialise connection with database
 def connect_to_db():
     conn = mysql.connector.connect(
@@ -30,3 +33,24 @@ def check_account(conn, cursor, email, password):
     account = cursor.fetchall()
 
     return account
+'''
+
+class Database:
+    def __init__(self):
+        self.__conn, self.__cursor = self.__connect()
+        self.__create_account_table()
+
+    def __connect(self):
+        conn = sqlite3.connect(DATABASE_PATH, autocommit=True)
+        cursor = conn.cursor()
+        return conn, cursor
+
+    def __create_account_table(self):
+        self.__cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Account (
+            Username TEXT PRIMARY KEY,
+            Email TEXT,
+            Password TEXT
+        )
+        """)
+        self.__conn.close()
