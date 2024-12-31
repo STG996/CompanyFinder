@@ -21,7 +21,6 @@ from kivy.uix.screenmanager import Screen
 from kivymd.app import MDApp
 
 import email_regex
-from account import EncryptedAccount
 from conn.db_connection import Database
 from email_regex import check_email_validity
 

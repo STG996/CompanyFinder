@@ -1,41 +1,8 @@
 import sqlite3
 
-from account import Account, EncryptedAccount
+from account import EncryptedAccount
 
 DATABASE_PATH = "conn/main.db"
-
-'''
-# Initialise connection with database
-def connect_to_db():
-    conn = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="root",
-        port="3306",
-        database="compsci_project"
-    )
-    cursor = conn.cursor(buffered=True)
-
-    return conn, cursor
-
-# Inserting new account into database
-def add_account(conn, cursor, username, email, password):
-    cursor.execute(
-        f"INSERT INTO account (username, email, password) VALUES ('{username}', '{email}', '{password}');"
-    )
-    conn.commit()
-
-    print(f"Created account:\nUsername:\t{username}\nEmail:\t{email}\nPassword:\t{password}")
-
-# Check account
-def check_account(conn, cursor, email, password):
-    cursor.execute(
-        f"SELECT * FROM account WHERE email = '{email}' AND password = '{password}';"
-    )
-    account = cursor.fetchall()
-
-    return account
-'''
 
 class Database:
     def __init__(self):
@@ -88,3 +55,6 @@ class Database:
 
     def log_in(self, username, email, password):
         self.__account.add_to_file(username, email, password)
+
+    def __del__(self):
+        self.__conn.close()
