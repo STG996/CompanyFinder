@@ -26,28 +26,28 @@ class Database:
 
     def add_account(self, username, email, password):
         self.__cursor.execute("""
-        INSERT INTO TABLE Account VALUES (
+        INSERT INTO Account VALUES (
             :username,
             :email,
             :password
         )
         """,
         {
-            ":username": username,
-            ":email": email,
-            ":password": password
+            "username": username,
+            "email": email,
+            "password": password
         })
 
         self.__account.add_to_file(username, email, password)
 
     def check_account(self, email, password):
         self.__cursor.execute("""
-        SELECT Username, Email FROM Account
+        SELECT * FROM Account
         WHERE Email = :email AND Password = :password
         """,
         {
-            ":email": email,
-            ":password": password
+            "email": email,
+            "password": password
         })
 
         account_list = self.__cursor.fetchall()

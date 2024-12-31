@@ -14,7 +14,6 @@ class Account:
         self._password = None
         self._file_name = "account_info.txt"
         self._logged_in = False
-        self.retrieve_from_file() # may remove later
 
     def retrieve_from_file(self):
         try:

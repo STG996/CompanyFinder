@@ -62,7 +62,6 @@ class MainApp(MDApp):
         # Loading screen design files
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
-        Builder.load_file("screens/home_screen.kv")
         return Builder.load_file("main.kv")# if successful_conn else Builder.load_file("screens/no_internet.kv")
 
 
