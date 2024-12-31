@@ -25,7 +25,6 @@ from account import EncryptedAccount
 from conn.db_connection import Database
 from email_regex import check_email_validity
 
-account = EncryptedAccount()
 database = Database()
 
 # Screens
@@ -33,8 +32,7 @@ class SignupScreen(Screen):
     def create_account(self, username, email, password):
         is_email_valid = check_email_validity(email)
         if is_email_valid:
-            add_account(conn, cursor, username, email, password) # Sign in server side
-            account.add_account_to_file(username, email, password) # Sign in client side
+            database.add_account(username, email, password)
         else:
             self.ids.error = True
             self.ids.email.helper_text = "Invalid email"
@@ -44,12 +42,9 @@ class SignupScreen(Screen):
 
 class LoginScreen(Screen):
     def check_signin(self, email, password):
-        accounts_found = check_account(conn, cursor, email, password)
-        if len(accounts_found) == 1:
-            print("Account was found")
-            account.add_account_to_file(accounts_found[0][0], email, password) #Sign in client side
-        else:
-            print("Account not found")
+        account_list = database.check_account(email, password)
+        if len(account_list) == 1:
+            database.log_in(account_list[0][0], account_list[0][1], account_list[0][2])
 
     def check_email_uix(self):
         email_regex.check_email_uix(self.ids)      # No better way was found for doing this
@@ -69,7 +64,7 @@ class MainApp(MDApp):
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
         Builder.load_file("screens/home_screen.kv")
-        return Builder.load_file("main.kv") if successful_conn else Builder.load_file("screens/no_internet.kv")
+        return Builder.load_file("main.kv")# if successful_conn else Builder.load_file("screens/no_internet.kv")
 
 
 if __name__ == "__main__":

@@ -14,8 +14,9 @@ class Account:
         self._password = None
         self._file_name = "account_info.txt"
         self._logged_in = False
+        self.retrieve_from_file() # may remove later
 
-    def retrieve_account_from_file(self):
+    def retrieve_from_file(self):
         try:
             file = open(self._file_name, "r")
             lines = file.readlines()
@@ -32,7 +33,7 @@ class Account:
         except FileNotFoundError:
             print("File not found.")
 
-    def add_account_to_file(self, username, email, password):
+    def add_to_file(self, username, email, password):
         file = open(self._file_name, "w")
         file.write(f"\n{username}\n{email}\n{password}\n")
         file.close()
@@ -40,7 +41,7 @@ class Account:
         self._email = email
         self._password = password
 
-    def remove_account_from_file(self):
+    def remove_from_file(self):
         os.remove(self._file_name)
 
     # Information hiding
@@ -95,10 +96,10 @@ class EncryptedAccount(Account):
         file.write(plaintext)
         file.close()
 
-    def retrieve_account_from_file(self):
+    def retrieve_from_file(self):
         self.__decrypt_file()
-        super().retrieve_account_from_file()
+        super().retrieve_from_file()
 
-    def add_account_to_file(self, username, email, password):
-        super().add_account_to_file(username, email, password)
+    def add_to_file(self, username, email, password):
+        super().add_to_file(username, email, password)
         self.__encrypt_file()
