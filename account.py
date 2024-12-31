@@ -16,17 +16,21 @@ class Account:
         self._logged_in = False
 
     def retrieve_account_from_file(self):
-        file = open(self._file_name, "r") # will error if file not found, TODO: fix
-        lines = file.readlines()
-        file.close()
-
         try:
-            self._username = lines[USERNAME_INDEX]
-            self._email = lines[EMAIL_INDEX]
-            self._password = lines[PASSWORD_INDEX]
-            self._logged_in = True
-        except IndexError:
-            self._logged_in = False
+            file = open(self._file_name, "r")
+            lines = file.readlines()
+            file.close()
+
+            try:
+                self._username = lines[USERNAME_INDEX]
+                self._email = lines[EMAIL_INDEX]
+                self._password = lines[PASSWORD_INDEX]
+                self._logged_in = True
+            except IndexError:
+                self._logged_in = False
+
+        except FileNotFoundError:
+            print("File not found.")
 
     def add_account_to_file(self, username, email, password):
         file = open(self._file_name, "w")
