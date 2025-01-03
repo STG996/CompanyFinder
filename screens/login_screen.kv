@@ -24,7 +24,7 @@
         # Email text field
         MDTextField:
             id: email
-            mode: "round"
+            mode: "outlined"
             hint_text: "Email"
             helper_text_mode: "on_error"
             on_text_validate: root.check_email_uix()
@@ -38,7 +38,7 @@
         # Password text field
         MDTextField:
             id: password
-            mode: "round"
+            mode: "outlined"
             hint_text: "Password"
             icon_left: "eye-off"
             size_hint_x: None
@@ -48,11 +48,13 @@
             password: True
 
         # Login button, bound to db
-        MDRoundFlatButton:
-            text: "Log in"
-            font_size: 15
+        MDButton:
+            style: "elevated"
             pos_hint: {"center_x": 0.5}
             on_press: root.check_signin(email.text, password.text)
+            MDButtonText:
+                text: "Log in"
+                font_size: 15
 
         # Navigation to signup if necessary
         MDBoxLayout:
@@ -71,12 +73,14 @@
                 height: self.texture_size[1]
 
             # Button redirecting to signup screen
-            MDTextButton:
-                text: "Sign up"
-                font_size: 11
+            MDButton:
+                style: "text"
                 on_press:
                     app.root.current = "signup_screen"
                     root.manager.transition.direction = "right"
+                MDButtonText:
+                    text: "Sign up"
+                    font_size: 11
 
             Widget:
                 size_hint_x: None

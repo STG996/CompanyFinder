@@ -57,7 +57,7 @@ class MainApp(MDApp):
 
         # Theme settings
         self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "BlueGray"
+        self.theme_cls.primary_palette = "Dimgray"
 
         # Loading screen design files
         Builder.load_file("screens/signup_screen.kv")
