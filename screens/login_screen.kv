@@ -2,24 +2,17 @@
 
 <LoginScreen>:
     name: "login_screen"
-    MDCard:
-        size_hint: None, None
-        size: 300, 400
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        elevation: 10
-        padding: 20
-        spacing: 25
-
+    MDBoxLayout:
         orientation: "vertical"
+        spacing: 16
+        size_hint_y: 0.7
+        pos_hint: {"center_y": 0.5}
 
         # "Welcome Back" text
         MDLabel:
             text: "Welcome Back"
-            font_size: 30
+            font_style: "Headline"
             halign: "center"
-            size_hint_y: None
-            height: self.texture_size[1]
-            padding_y: 15
 
         # Email text field
         MDTextField:
@@ -56,32 +49,20 @@
                 text: "Log in"
                 font_size: 15
 
-        # Navigation to signup if necessary
-        MDBoxLayout:
-            orientation: "horizontal"
-            spacing: 2
+        MDLabel:
+            text: "Don't have an account?"
+            role: "small"
+            halign: "center"
+            size_hint_y: None
+            height: self.texture_size[1]
 
-            Widget:
-                size_hint_x: None
-                width: 48
-
-            MDLabel:
-                text: "Don't have an account?"
-                font_size: 11
-                halign: "center"
-                size_hint_y: None
-                height: self.texture_size[1]
-
-            # Button redirecting to signup screen
-            MDButton:
-                style: "text"
-                on_press:
-                    app.root.current = "signup_screen"
-                    root.manager.transition.direction = "right"
-                MDButtonText:
-                    text: "Sign up"
-                    font_size: 11
-
-            Widget:
-                size_hint_x: None
-                width: 48
+        # Button redirecting to signup screen
+        MDButton:
+            style: "text"
+            pos_hint: {"center_x": 0.5}
+            on_press:
+                app.root.current = "signup_screen"
+                root.manager.transition.direction = "right"
+            MDButtonText:
+                text: "Sign up"
+                role: "small"

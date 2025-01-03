@@ -7,6 +7,7 @@
         spacing: 16
         size_hint_y: 0.7
         pos_hint: {"center_y": 0.5}
+
         # "Welcome" text
         MDLabel:
             text: "Welcome"
@@ -62,7 +63,8 @@
         MDLabel:
             text: "Already have an account?"
             halign: "center"
-            size: self.texture_size
+            size_hint_y: None
+            height: self.texture_size[1]
             role: "small"
 
         # Button redirecting to login screen
