@@ -18,27 +18,27 @@
         MDTextField:
             id: email
             mode: "outlined"
-            hint_text: "Email"
-            helper_text_mode: "on_error"
-            on_text_validate: root.check_email_uix()
-
-            icon_left: "email"
+            on_focus: root.check_email_uix()
             size_hint_x: None
             width: 200
-            font_size: 18
             pos_hint: {"center_x": 0.5}
+            MDTextFieldHintText:
+                text: "Email"
+            MDTextFieldLeadingIcon:
+                icon: "email"
 
         # Password text field
         MDTextField:
             id: password
             mode: "outlined"
-            hint_text: "Password"
-            icon_left: "eye-off"
             size_hint_x: None
             width: 200
-            font_size: 18
             pos_hint: {"center_x": 0.5}
             password: True
+            MDTextFieldHintText:
+                text: "Password"
+            MDTextFieldLeadingIcon:
+                icon: "asterisk"
 
         # Login button, bound to db
         MDButton:
