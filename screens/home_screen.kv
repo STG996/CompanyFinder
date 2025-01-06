@@ -1,3 +1,18 @@
 # Design code for the home screen
 
 <HomeScreen>:
+    MDTopAppBar:
+        type: "small"
+        size_hint_x: 0.99999 # temp fix, no clue why
+        pos_hint: {"top": 1}
+
+        MDTopAppBarLeadingButtonContainer:
+            MDActionTopAppBarButton:
+                icon: "menu"
+
+        MDTopAppBarTitle:
+            text: "Home"
+
+        MDTopAppBarTrailingButtonContainer:
+            MDActionTopAppBarButton:
+                icon: "account-circle"

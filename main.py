@@ -30,22 +30,24 @@ try:
 except FileNotFoundError:
     logged_in = False
 
-# Main app
-class MainApp(MDApp):
+# Main app class
+class CompanyFinderApp(MDApp):
     def build(self):
         # Theme settings
         self.theme_cls.theme_style = "Dark"
 
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
+        Builder.load_file("screens/home_screen.kv")
 
         screen_manager = ScreenManager(transition=NoTransition())
         if not logged_in:
             screen_manager.add_widget(screens.SignupScreen(name="signup_screen"))
             screen_manager.add_widget(screens.LoginScreen(name="login_screen"))
+        screen_manager.add_widget(screens.HomeScreen(name="home_screen"))
 
         return screen_manager
 
 if __name__ == "__main__":
     print(logged_in)
-    MainApp().run()
+    CompanyFinderApp().run()
