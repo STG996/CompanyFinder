@@ -1,7 +1,6 @@
 # Design code for signup screen
 
 <SignupScreen>:
-    name: "signup_screen"
     MDBoxLayout:
         orientation: "vertical"
         spacing: 16
@@ -74,7 +73,6 @@
             pos_hint: {"center_x": 0.5}
             on_press:
                 app.root.current = "login_screen"
-                root.manager.transition.direction = "left"
             MDButtonText:
                 text: "Log in"
                 role: "small"

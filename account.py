@@ -16,21 +16,17 @@ class Account:
         self._logged_in = False
 
     def retrieve_from_file(self):
+        file = open(self._file_name, "r")
+        lines = file.readlines()
+        file.close()
+
         try:
-            file = open(self._file_name, "r")
-            lines = file.readlines()
-            file.close()
-
-            try:
-                self._username = lines[USERNAME_INDEX]
-                self._email = lines[EMAIL_INDEX]
-                self._password = lines[PASSWORD_INDEX]
-                self._logged_in = True
-            except IndexError:
-                self._logged_in = False
-
-        except FileNotFoundError:
-            print("File not found.")
+            self._username = lines[USERNAME_INDEX]
+            self._email = lines[EMAIL_INDEX]
+            self._password = lines[PASSWORD_INDEX]
+            self._logged_in = True
+        except IndexError:
+            self._logged_in = False
 
     def add_to_file(self, username, email, password):
         file = open(self._file_name, "w")
@@ -45,7 +41,7 @@ class Account:
 
     # Information hiding
     def get_logged_in(self):
-        return self._logged_in, self._username
+        return self._logged_in
 
 class EncryptedAccount(Account):
     def __init__(self):
@@ -73,23 +69,20 @@ class EncryptedAccount(Account):
 
     def __decrypt_file(self):
         file = open(self._file_name, "r")
-        ciphertext = file.read()
+        contents = file.read()
         file.close()
 
-        plaintext = ""
-        add_to_plaintext_or_key = "plaintext"
-        for count, character in enumerate(ciphertext):
-            for i in range(3):
-                if ciphertext[count+i] == "X":
-                    continue
+        first_x_index = None
+        for count, character in enumerate(contents):
+            if character == "X" and contents[count + 1] == "X" and contents[count + 2] == "X":
+                first_x_index = count
                 break
-            else:
-                add_to_plaintext_or_key = "key"
+        ciphertext = contents[:first_x_index]
+        self.__key = contents[first_x_index+3:]
 
-            if add_to_plaintext_or_key == "plaintext":
-                plaintext += chr( ord(character) ^ ord(self.__key[count]) )
-            else:
-                self.__key = ciphertext[count+3:]
+        plaintext = ""
+        for count, character in enumerate(ciphertext):
+            plaintext += chr( ord(character) ^ ord(self.__key[count]) )
 
         file = open(self._file_name, "w")
         file.write(plaintext)
@@ -98,6 +91,7 @@ class EncryptedAccount(Account):
     def retrieve_from_file(self):
         self.__decrypt_file()
         super().retrieve_from_file()
+        self.__encrypt_file()
 
     def add_to_file(self, username, email, password):
         super().add_to_file(username, email, password)

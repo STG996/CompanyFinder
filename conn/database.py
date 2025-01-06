@@ -8,7 +8,7 @@ class Database:
     def __init__(self):
         self.__conn, self.__cursor = self.__connect()
         self.__create_account_table()
-        self.__account = EncryptedAccount()
+        self.account = EncryptedAccount()
 
     def __connect(self):
         conn = sqlite3.connect(DATABASE_PATH, autocommit=True)
@@ -38,7 +38,7 @@ class Database:
             "password": password
         })
 
-        self.__account.add_to_file(username, email, password)
+        self.account.add_to_file(username, email, password)
 
     def check_account(self, email, password):
         self.__cursor.execute("""
@@ -54,7 +54,7 @@ class Database:
         return account_list
 
     def log_in(self, username, email, password):
-        self.__account.add_to_file(username, email, password)
+        self.account.add_to_file(username, email, password)
 
     def __del__(self):
         self.__conn.close()

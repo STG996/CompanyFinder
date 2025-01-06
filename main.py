@@ -15,9 +15,9 @@ GNU Affero General Public License for more details.
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see https://www.gnu.org/licenses/.
 '''
-
+from docutils.nodes import transition
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen
+from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
 from kivymd.app import MDApp
 
 import email_regex
@@ -25,6 +25,11 @@ from conn.database import Database
 from email_regex import check_email_validity
 
 database = Database()
+try:
+    database.account.retrieve_from_file()
+    logged_in = database.account.get_logged_in()
+except FileNotFoundError:
+    logged_in = False
 
 # Screens
 class SignupScreen(Screen):
@@ -58,11 +63,16 @@ class MainApp(MDApp):
         # Theme settings
         self.theme_cls.theme_style = "Dark"
 
-        # Loading screen design files
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
-        return Builder.load_file("main.kv")# if successful_conn else Builder.load_file("screens/no_internet.kv")
 
+        screen_manager = ScreenManager(transition=NoTransition())
+        if not logged_in:
+            screen_manager.add_widget(SignupScreen(name="signup_screen"))
+            screen_manager.add_widget(LoginScreen(name="login_screen"))
+
+        return screen_manager
 
 if __name__ == "__main__":
+    print(logged_in)
     MainApp().run()
