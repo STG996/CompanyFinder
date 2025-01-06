@@ -1,8 +1,8 @@
 import sqlite3
 
-from account import EncryptedAccount
+from account.account import EncryptedAccount
 
-DATABASE_PATH = "conn/main.db"
+DATABASE_PATH = "database/main.db"
 
 class Database:
     def __init__(self):

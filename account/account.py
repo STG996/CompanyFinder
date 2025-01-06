@@ -12,7 +12,7 @@ class Account:
         self._username = None
         self._email = None
         self._password = None
-        self._file_name = "account_info.txt"
+        self._file_name = "account/account_info.txt"
         self._logged_in = False
 
     def retrieve_from_file(self):
@@ -50,7 +50,7 @@ class EncryptedAccount(Account):
 
     def __generate_key(self):
         length_required = len(self._username) + len(self._email) + len(self._password) + 5
-        self.__key = "".join(random.choice(ALPHABET) for x in range(length_required))
+        self.__key = "".join(random.choice(ALPHABET) for _ in range(length_required))
 
     def __encrypt_file(self):
         file = open(self._file_name, "r")

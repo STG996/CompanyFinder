@@ -1,4 +1,4 @@
-'''
+"""
 CompanyFinder: AQA non-exam assessment submission 2025
 Copyright (C) 2024  STG996
 
@@ -14,16 +14,15 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see https://www.gnu.org/licenses/.
-'''
-from docutils.nodes import transition
+"""
 from kivy.lang import Builder
-from kivy.uix.screenmanager import Screen, ScreenManager, NoTransition
+from kivy.uix.screenmanager import ScreenManager, NoTransition
 from kivymd.app import MDApp
 
-import email_regex
-from conn.database import Database
-from email_regex import check_email_validity
+from database.database import Database
+from screens import screens
 
+# Database initialisation
 database = Database()
 try:
     database.account.retrieve_from_file()
@@ -31,35 +30,9 @@ try:
 except FileNotFoundError:
     logged_in = False
 
-# Screens
-class SignupScreen(Screen):
-    def create_account(self, username, email, password):
-        is_email_valid = check_email_validity(email)
-        if is_email_valid:
-            database.add_account(username, email, password)
-        else:
-            self.ids.error = True
-            self.ids.email.helper_text = "Invalid email"
-
-    def check_email_uix(self):
-        email_regex.check_email_uix(self.ids)       # No better way was found for doing this
-
-class LoginScreen(Screen):
-    def check_signin(self, email, password):
-        account_list = database.check_account(email, password)
-        if len(account_list) == 1:
-            database.log_in(account_list[0][0], account_list[0][1], account_list[0][2])
-
-    def check_email_uix(self):
-        email_regex.check_email_uix(self.ids)      # No better way was found for doing this
-
-class HomeScreen(Screen):
-    pass
-
 # Main app
 class MainApp(MDApp):
     def build(self):
-
         # Theme settings
         self.theme_cls.theme_style = "Dark"
 
@@ -68,8 +41,8 @@ class MainApp(MDApp):
 
         screen_manager = ScreenManager(transition=NoTransition())
         if not logged_in:
-            screen_manager.add_widget(SignupScreen(name="signup_screen"))
-            screen_manager.add_widget(LoginScreen(name="login_screen"))
+            screen_manager.add_widget(screens.SignupScreen(name="signup_screen"))
+            screen_manager.add_widget(screens.LoginScreen(name="login_screen"))
 
         return screen_manager
 
