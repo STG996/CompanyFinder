@@ -1,3 +1,5 @@
+import os
+
 from kivymd.uix.screen import MDScreen
 
 from account import email_regex
@@ -30,3 +32,7 @@ class LoginScreen(MDScreen):
 
 class HomeScreen(MDScreen):
     pass
+
+class AccountSettings(MDScreen):
+    def on_log_out(self):
+        database.account.remove_from_file()

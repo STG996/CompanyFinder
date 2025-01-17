@@ -1,18 +1,30 @@
 # Design code for the home screen
 
 <HomeScreen>:
-    MDTopAppBar:
-        type: "small"
-        size_hint_x: 0.99999 # temp fix, no clue why
-        pos_hint: {"top": 1}
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 16
 
-        MDTopAppBarLeadingButtonContainer:
-            MDActionTopAppBarButton:
-                icon: "menu"
+        MDTopAppBar:
+            type: "small"
+            size_hint_x: 0.99999 # temp fix, no clue why
+            pos_hint: {"top": 1}
 
-        MDTopAppBarTitle:
-            text: "Home"
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "menu"
 
-        MDTopAppBarTrailingButtonContainer:
-            MDActionTopAppBarButton:
-                icon: "account-circle"
+            MDTopAppBarTitle:
+                text: "Home"
+
+            MDTopAppBarTrailingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "account-circle"
+                    on_press: app.root.current = "account_settings"
+
+        MDCard:
+            MDBoxLayout:
+                orientation: "vertical"
+
+                MDLabel:
+                    text: "For you"

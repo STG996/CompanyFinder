@@ -39,12 +39,18 @@ class CompanyFinderApp(MDApp):
         Builder.load_file("screens/signup_screen.kv")
         Builder.load_file("screens/login_screen.kv")
         Builder.load_file("screens/home_screen.kv")
+        Builder.load_file("screens/account_settings.kv")
 
         screen_manager = ScreenManager(transition=NoTransition())
-        if not logged_in:
-            screen_manager.add_widget(screens.SignupScreen(name="signup_screen"))
-            screen_manager.add_widget(screens.LoginScreen(name="login_screen"))
+        screen_manager.add_widget(screens.SignupScreen(name="signup_screen"))
+        screen_manager.add_widget(screens.LoginScreen(name="login_screen"))
         screen_manager.add_widget(screens.HomeScreen(name="home_screen"))
+        screen_manager.add_widget(screens.AccountSettings(name="account_settings"))
+
+        if logged_in:
+            screen_manager.current = "home_screen"
+        else:
+            screen_manager.current = "signup_screen"
 
         return screen_manager
 
