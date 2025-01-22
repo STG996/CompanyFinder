@@ -1,0 +1,28 @@
+<AccountSettings>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            type: "small"
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_press: app.root.current = "home_screen"
+
+            MDTopAppBarTitle:
+                text: "Account"
+
+        BoxLayout:
+
+        MDButton:
+            style: "tonal"
+            pos_hint: {"center_x": 0.5}
+            on_press:
+                root.on_log_out()
+                app.root.current = "signup_screen"
+
+            MDButtonText:
+                text: "Log out"
+
+        BoxLayout:
