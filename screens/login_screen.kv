@@ -43,7 +43,9 @@
         MDButton:
             style: "elevated"
             pos_hint: {"center_x": 0.5}
-            on_press: root.check_signin(email.text, password.text)
+            on_press:
+                root.check_signin(email.text, password.text)
+                app.root.current = root.go_to_home_screen()
             MDButtonText:
                 text: "Log in"
                 font_size: 15
@@ -60,7 +62,7 @@
             style: "text"
             pos_hint: {"center_x": 0.5}
             on_press:
-                app.root.current = "signup_screen"
+                app.root.current = root.go_back()
             MDButtonText:
                 text: "Sign up"
                 role: "small"

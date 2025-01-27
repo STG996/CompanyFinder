@@ -8,7 +8,8 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
-                    on_press: app.root.current = "home_screen"
+                    on_press:
+                        app.root.current = root.go_back()
 
             MDTopAppBarTitle:
                 text: "Account"
@@ -20,7 +21,7 @@
             pos_hint: {"center_x": 0.5}
             on_press:
                 root.on_log_out()
-                app.root.current = "signup_screen"
+                app.root.current = root.go_to_signup_screen()
 
             MDButtonText:
                 text: "Log out"

@@ -19,10 +19,14 @@
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "account-circle"
-                    on_press: app.root.current = "account_screen"
+                    on_press: app.root.current = root.go_to_account_screen()
 
         BoxLayout:
 
         MDCard:
+            padding: 16
+
             MDLabel:
                 text: "For you"
+
+        BoxLayout:

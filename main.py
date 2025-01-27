@@ -21,6 +21,7 @@ from kivymd.app import MDApp
 
 from database.database import Database
 from screens import screens
+from screens.stack import Stack
 
 # Database initialisation
 database = Database()
@@ -29,6 +30,8 @@ try:
     logged_in = database.account.get_logged_in()
 except FileNotFoundError:
     logged_in = False
+
+screen_stack = Stack()
 
 # Main app class
 class CompanyFinderApp(MDApp):
@@ -49,11 +52,20 @@ class CompanyFinderApp(MDApp):
 
         if logged_in:
             screen_manager.current = "home_screen"
+            screen_stack.push("home_screen")
         else:
             screen_manager.current = "signup_screen"
+            screen_stack.push("signup_screen")
 
         return screen_manager
 
 if __name__ == "__main__":
     print(logged_in)
     CompanyFinderApp().run()
+
+
+# ideas for what to do next:
+# - make a stack for the loaded screens and pop and stuff
+# - figure out what to do next with the main app functionality
+# - get the database structure figured out
+# - pump the app with features for marks
