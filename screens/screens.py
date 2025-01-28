@@ -28,18 +28,12 @@ class SignupScreen(MDScreen):
             self.ids.error = True
             self.ids.email.helper_text = "Invalid email"
 
-    def check_email_uix(self):
-        email_regex.check_email_uix(self.ids)       # No better way was found for doing this
-
 class LoginScreen(MDScreen):
     def check_signin(self, email, password):
         account_list = database.check_account(email, password)
         if len(account_list) == 1:
             database.log_in(account_list[0][0], account_list[0][1], account_list[0][2])
             self.parent.current = clear_and_go_to_screen("home_screen")
-
-    def check_email_uix(self):
-        email_regex.check_email_uix(self.ids)      # No better way was found for doing this
 
 class HomeScreen(MDScreen):
     def go_to_account_screen(self):

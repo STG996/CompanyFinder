@@ -1,4 +1,5 @@
 #: import go_to_screen screens.screens.go_to_screen
+#: import check_email_uix account.email_regex.check_email_uix
 
 <SignupScreen>:
     MDBoxLayout:
@@ -29,7 +30,7 @@
         MDTextField:
             id: email
             mode: "outlined"
-            on_focus: root.check_email_uix()
+            on_focus: check_email_uix(root.ids)
             size_hint_x: None
             width: 200
             pos_hint: {"center_x": 0.5}
