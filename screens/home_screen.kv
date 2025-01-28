@@ -1,4 +1,4 @@
-# Design code for the home screen
+#: import go_to_screen screens.screens.go_to_screen
 
 <HomeScreen>:
     MDBoxLayout:
@@ -19,7 +19,7 @@
             MDTopAppBarTrailingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "account-circle"
-                    on_press: app.root.current = root.go_to_account_screen()
+                    on_press: app.root.current = go_to_screen("home_screen", "account_screen")
 
         BoxLayout:
 

@@ -1,4 +1,4 @@
-# Design code for signup screen
+#: import go_to_screen screens.screens.go_to_screen
 
 <SignupScreen>:
     MDBoxLayout:
@@ -72,7 +72,7 @@
             style: "text"
             pos_hint: {"center_x": 0.5}
             on_press:
-                app.root.current = root.go_to_login_screen()
+                app.root.current = go_to_screen("signup_screen", "login_screen")
             MDButtonText:
                 text: "Log in"
                 role: "small"

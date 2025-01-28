@@ -31,7 +31,7 @@ try:
 except FileNotFoundError:
     logged_in = False
 
-screen_stack = Stack()
+previous_screens = Stack()
 
 # Main app class
 class CompanyFinderApp(MDApp):
@@ -52,10 +52,10 @@ class CompanyFinderApp(MDApp):
 
         if logged_in:
             screen_manager.current = "home_screen"
-            screen_stack.push("home_screen")
+            previous_screens.push("home_screen")
         else:
             screen_manager.current = "signup_screen"
-            screen_stack.push("signup_screen")
+            previous_screens.push("signup_screen")
 
         return screen_manager
 

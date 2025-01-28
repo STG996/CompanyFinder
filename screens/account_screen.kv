@@ -1,3 +1,6 @@
+#: import clear_and_go_to_screen screens.screens.clear_and_go_to_screen
+#:import go_back screens.screens.go_back
+
 <AccountSettings>:
     MDBoxLayout:
         orientation: "vertical"
@@ -9,7 +12,7 @@
                 MDActionTopAppBarButton:
                     icon: "arrow-left"
                     on_press:
-                        app.root.current = root.go_back()
+                        app.root.current = go_back()
 
             MDTopAppBarTitle:
                 text: "Account"
@@ -21,7 +24,7 @@
             pos_hint: {"center_x": 0.5}
             on_press:
                 root.on_log_out()
-                app.root.current = root.go_to_signup_screen()
+                app.root.current = clear_and_go_to_screen("signup_screen")
 
             MDButtonText:
                 text: "Log out"

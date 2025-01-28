@@ -1,4 +1,5 @@
-# Design code for login screen
+#: import go_to_screen screens.screens.go_to_screen
+#:import go_back screens.screens.go_back
 
 <LoginScreen>:
     MDBoxLayout:
@@ -45,7 +46,6 @@
             pos_hint: {"center_x": 0.5}
             on_press:
                 root.check_signin(email.text, password.text)
-                app.root.current = root.go_to_home_screen()
             MDButtonText:
                 text: "Log in"
                 font_size: 15
@@ -62,7 +62,7 @@
             style: "text"
             pos_hint: {"center_x": 0.5}
             on_press:
-                app.root.current = root.go_back()
+                app.root.current = go_back()
             MDButtonText:
                 text: "Sign up"
                 role: "small"
