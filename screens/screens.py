@@ -36,19 +36,8 @@ class LoginScreen(MDScreen):
             self.parent.current = clear_and_go_to_screen("home_screen")
 
 class HomeScreen(MDScreen):
-    def go_to_account_screen(self):
-        previous_screens.push("account_screen")
-        return previous_screens.peek()
+    pass
 
 class AccountSettings(MDScreen):
     def on_log_out(self):
         database.account.remove_from_file()
-
-    def go_back(self):
-        previous_screens.pop()
-        return previous_screens.peek()
-
-    def go_to_signup_screen(self):
-        previous_screens.clear()
-        previous_screens.push("signup_screen")
-        return previous_screens.peek()
