@@ -15,6 +15,8 @@ class Database:
         cursor = conn.cursor()
         return conn, cursor
 
+    # Account Table
+
     def __create_account_table(self):
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Account (
@@ -55,6 +57,25 @@ class Database:
 
     def log_in(self, username, email, password):
         self.account.add_to_file(username, email, password)
+
+    # Company Table
+
+    def __create_company_table(self):
+        self.__cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Company (
+            CompanyName TEXT PRIMARY KEY,
+            LookingForInvestor INTEGER,
+            MinimumAskingInvestment INTEGER,
+            MinimumInvestorAge INTEGER
+        )
+        """)
+
+    def __create_company_account_table(self):
+        self.__cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Company (
+            
+        )
+        """) ####### TODO: ask teacher how to implement this exactly
 
     def __del__(self):
         self.__conn.close()

@@ -1,3 +1,4 @@
+from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.screen import MDScreen
 
 from account import email_regex

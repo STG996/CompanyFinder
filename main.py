@@ -62,10 +62,3 @@ class CompanyFinderApp(MDApp):
 if __name__ == "__main__":
     print(logged_in)
     CompanyFinderApp().run()
-
-
-# ideas for what to do next:
-# - make a stack for the loaded screens and pop and stuff
-# - figure out what to do next with the main app functionality
-# - get the database structure figured out
-# - pump the app with features for marks

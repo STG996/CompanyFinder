@@ -12,6 +12,7 @@
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
                     icon: "menu"
+                    on_press: nav_drawer.set_state("toggle")
 
             MDTopAppBarTitle:
                 text: "Home"
@@ -23,10 +24,18 @@
 
         BoxLayout:
 
-        MDCard:
-            padding: 16
+    MDNavigationDrawer:
+        id: nav_drawer
 
-            MDLabel:
-                text: "For you"
+        MDNavigationDrawerMenu:
+            MDNavigationDrawerLabel:
+                text: "Menu"
 
-        BoxLayout:
+            MDNavigationDrawerItem:
+                MDNavigationDrawerItemLeadingIcon:
+                    icon: "domain-plus"
+
+                MDNavigationDrawerItemText:
+                    text: "Register your company"
+
+            MDNavigationDrawerDivider:
