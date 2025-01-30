@@ -8,6 +8,8 @@ class Database:
     def __init__(self):
         self.__conn, self.__cursor = self.__connect()
         self.__create_account_table()
+        self.__create_company_table()
+        self.__create_company_account_table()
         self.account = EncryptedAccount()
 
     def __connect(self):
@@ -72,10 +74,30 @@ class Database:
 
     def __create_company_account_table(self):
         self.__cursor.execute("""
-        CREATE TABLE IF NOT EXISTS Company (
-            
+        CREATE TABLE IF NOT EXISTS CompanyAccount (
+            Username,
+            CompanyName,
+            FOREIGN KEY (Username) REFERENCES Account(Username),
+            FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
+            PRIMARY KEY (Username, CompanyName)
         )
-        """) ####### TODO: ask teacher how to implement this exactly
+        """)
+
+    def register_company(self, company_name, looking_for_investor, minimum_asking_investment, minimum_investor_age):
+        self.__cursor.execute("""
+            INSERT INTO Company VALUES (
+                :company_name,
+                :looking_for_investor,
+                :minimum_asking_investment,
+                :minimum_investor_age
+            )
+        """,
+        {
+            "company_name": company_name,
+            "looking_for_investor": looking_for_investor,
+            "minimum_asking_investment": minimum_asking_investment,
+            "minimum_investor_age": minimum_investor_age
+        })
 
     def __del__(self):
         self.__conn.close()

@@ -1,7 +1,5 @@
-from kivymd.uix.navigationdrawer import MDNavigationDrawer
 from kivymd.uix.screen import MDScreen
 
-from account import email_regex
 from account.email_regex import check_email_validity
 from main import database, previous_screens
 
@@ -22,12 +20,7 @@ class SignupScreen(MDScreen):
         is_email_valid = check_email_validity(email)
         if is_email_valid:
             database.add_account(username, email, password)
-
             self.parent.current = clear_and_go_to_screen("home_screen")
-
-        else:
-            self.ids.error = True
-            self.ids.email.helper_text = "Invalid email"
 
 class LoginScreen(MDScreen):
     def check_signin(self, email, password):
@@ -42,3 +35,6 @@ class HomeScreen(MDScreen):
 class AccountSettings(MDScreen):
     def on_log_out(self):
         database.account.remove_from_file()
+
+class CompanyRegistrationScreen(MDScreen):
+    pass

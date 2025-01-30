@@ -1,0 +1,97 @@
+#:import go_back screens.screens.go_back
+#:import database main.database
+
+<CompanyRegistrationScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTopAppBar:
+            type: "small"
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_press: app.root.current = go_back()
+
+            MDTopAppBarTitle:
+                text: "Register your company"
+
+        BoxLayout:
+            size_hint_y: 2.5
+
+        MDBoxLayout:
+            orientation: "vertical"
+            spacing: 32
+            size_hint_x: None
+            width: 500
+            pos_hint: {"center_x": 0.5}
+
+            MDTextField:
+                id: company_name
+                mode: "outlined"
+                size_hint_x: None
+                width: 350
+                pos_hint: {"center_x": 0.5}
+
+                MDTextFieldLeadingIcon:
+                    icon: "domain"
+
+                MDTextFieldHintText:
+                    text: "Company name"
+
+            MDTextField:
+                id: min_investment
+                mode: "outlined"
+                size_hint_x: None
+                width: 350
+                pos_hint: {"center_x": 0.5}
+
+                MDTextFieldLeadingIcon:
+                    icon: "account-cash"
+
+                MDTextFieldHintText:
+                    text: "Minimum asking investment"
+
+            MDLabel:
+                text: "Minimum investor age:"
+                halign: "center"
+
+            MDSlider:
+                id: min_age
+                step: 5
+                size_hint_x: None
+                width: 300
+                size_hint_y: None
+                height: 20
+                min: 15
+                max: 75
+                value: 20
+                pos_hint: {"center_x": 0.5}
+
+                MDSliderHandle:
+                MDSliderValueLabel:
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint_x: None
+                width: 250
+                pos_hint: {"center_x": 0.5}
+                MDLabel:
+                    text: "Looking for investor"
+                MDCheckbox:
+                    id: looking_for_investor
+                    pos_hint: {"center_y": 0.5}
+
+            MDButton:
+                style: "elevated"
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    database.register_company(company_name.text, looking_for_investor.active, min_investment.text, min_age.value)
+                    app.root.current = go_back()
+
+                MDButtonIcon:
+                    icon: "domain-plus"
+                MDButtonText:
+                    text: "Register company"
+
+        BoxLayout:
