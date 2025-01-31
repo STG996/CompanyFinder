@@ -39,9 +39,11 @@ class Account:
     def remove_from_file(self):
         os.remove(self._file_name)
 
-    # Information hiding
     def get_logged_in(self):
         return self._logged_in
+
+    def get_username(self):
+        return self._username
 
 class EncryptedAccount(Account):
     def __init__(self):

@@ -99,5 +99,16 @@ class Database:
             "minimum_investor_age": minimum_investor_age
         })
 
+        self.__cursor.execute("""
+            INSERT INTO CompanyAccount VALUES (
+                :username,
+                :company_name
+            )
+        """,
+        {
+             "username": self.account.get_username(),
+             "company_name": company_name
+        })
+
     def __del__(self):
         self.__conn.close()
