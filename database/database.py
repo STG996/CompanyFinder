@@ -23,14 +23,17 @@ class Database:
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Account (
             Username TEXT PRIMARY KEY,
-            Email TEXT,
-            Password TEXT
+            Email TEXT NOT NULL,
+            Password TEXT NOT NULL,
+            DateOfBirth TEXT,
+            MaximumInvestment INTEGER,
+            LookingToInvest INTEGER
         )
         """)
 
     def add_account(self, username, email, password):
         self.__cursor.execute("""
-        INSERT INTO Account VALUES (
+        INSERT INTO Account (Username, Email, Password) VALUES (
             :username,
             :email,
             :password
@@ -59,6 +62,36 @@ class Database:
 
     def log_in(self, username, email, password):
         self.account.add_to_file(username, email, password)
+
+    def retrieve_account_settings(self):
+        self.__cursor.execute("""
+        SELECT DateOfBirth, MaximumInvestment, LookingToInvest FROM Account
+        WHERE Username = :username
+        """,
+        {
+            "username": self.account.get_username()
+        })
+        print(self.account.get_username())
+        return self.__cursor.fetchone()
+
+    def update_account_table(self, dob, max_investment, looking_to_invest):
+
+        self.__cursor.execute(f"""
+        UPDATE Account
+        SET DateOfBirth = :dob,
+        MaximumInvestment = :max_investment,
+        LookingToInvest = :looking_to_invest
+        WHERE Username = :username
+        """,
+        {
+            "dob": dob,
+            "max_investment": max_investment,
+            "looking_to_invest": looking_to_invest,
+            "username": self.account.get_username() # <---- FOUND THE BUG
+        })
+
+        print(self.account.get_username())
+        print(self.account._username)
 
     # Company Table
 

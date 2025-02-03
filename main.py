@@ -28,7 +28,7 @@ database = Database()
 try:
     database.account.retrieve_from_file()
     logged_in = database.account.get_logged_in()
-except FileNotFoundError:
+except:
     logged_in = False
 
 previous_screens = Stack()

@@ -1,5 +1,6 @@
 #: import clear_and_go_to_screen screens.screens.clear_and_go_to_screen
-#:import go_back screens.screens.go_back
+#: import go_back screens.screens.go_back
+#: import check_date account.regex.check_date
 
 <AccountSettings>:
     MDBoxLayout:
@@ -17,16 +18,91 @@
             MDTopAppBarTitle:
                 text: "Account"
 
-        BoxLayout:
-
-        MDButton:
-            style: "tonal"
+        MDBoxLayout:
+            orientation: "vertical"
+            spacing: 16
+            size_hint_x: None
+            width: 500
             pos_hint: {"center_x": 0.5}
-            on_press:
-                root.on_log_out()
-                app.root.current = clear_and_go_to_screen("signup_screen")
 
-            MDButtonText:
-                text: "Log out"
+            MDLabel:
+                font_style: "Headline"
+                role: "large"
+                text: "Investor details"
+                halign: "center"
+                pos_hint: {"center_x": 0.5}
 
-        BoxLayout:
+            MDTextField:
+                id: dob
+                style: "outlined"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: None
+                width: 200
+                on_focus:
+                    dob.error = True if not check_date(dob.text) else False #TODO: FIX
+
+                MDTextFieldLeadingIcon:
+                    icon: "calendar-clock"
+
+                MDTextFieldHintText:
+                    text: "Date of birth"
+
+            MDTextField:
+                id: max_investment
+                style: "outlined"
+                pos_hint: {"center_x": 0.5}
+                size_hint_x: None
+                width: 300
+
+                MDTextFieldLeadingIcon:
+                    icon: "cash-multiple"
+
+                MDTextFieldHintText:
+                    text: "Maximum investment"
+
+            BoxLayout:
+                orientation: "horizontal"
+                size_hint_x: None
+                width: 250
+                pos_hint: {"center_x": 0.5}
+                MDLabel:
+                    text: "Looking to invest"
+                MDCheckbox:
+                    id: looking_to_invest
+                    pos_hint: {"center_y": 0.5}
+
+            MDButton:
+                style: "tonal"
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    dob.text = root.retrieve_account_settings(0)
+                    max_investment = root.retrieve_account_settings(1)
+                    looking_to_invest.active = bool(root.retrieve_account_settings(2))
+
+                MDButtonText:
+                    text: "Retrieve settings"
+
+            MDButton:
+                style: "tonal"
+                pos_hint: {"center_x": 0.5}
+                on_press: root.update_settings(dob.text, max_investment.text, looking_to_invest.active)
+
+                MDButtonText:
+                    text: "Update settings"
+
+            MDDivider:
+
+            MDButton:
+                style: "tonal"
+                pos_hint: {"center_x": 0.5}
+                on_press:
+                    root.on_log_out()
+                    app.root.current = clear_and_go_to_screen("signup_screen")
+
+                MDButtonIcon:
+                    icon: "account-arrow-left"
+
+                MDButtonText:
+                    text: "Log out"
+
+            BoxLayout:

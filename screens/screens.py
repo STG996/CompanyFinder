@@ -1,6 +1,6 @@
 from kivymd.uix.screen import MDScreen
 
-from account.email_regex import check_email_validity
+from account.regex import check_email_validity
 from main import database, previous_screens
 
 # Screen stack manipulation
@@ -35,6 +35,14 @@ class HomeScreen(MDScreen):
 class AccountSettings(MDScreen):
     def on_log_out(self):
         database.account.remove_from_file()
+
+    def retrieve_account_settings(self, index):
+        value = database.retrieve_account_settings()[index]
+        return value
+
+    def update_settings(self, dob, max_investment, looking_to_invest):
+        database.update_account_table(dob, max_investment, looking_to_invest)
+        print(dob, max_investment, looking_to_invest)
 
 class CompanyRegistrationScreen(MDScreen):
     pass
