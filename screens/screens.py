@@ -40,8 +40,9 @@ class AccountSettings(MDScreen):
         value = database.retrieve_account_settings()
         return value
 
-    def update_settings(self, dob, max_investment, looking_to_invest):
-        database.update_account_table(dob, max_investment, looking_to_invest)
+    def update_settings(self):
+        if not self.ids.dob.error and not self.ids.max_investment.error:
+            database.update_account_table(self.ids.dob.text, int(self.ids.max_investment.text), self.ids.looking_to_invest.active)
 
 class CompanyRegistrationScreen(MDScreen):
     pass
