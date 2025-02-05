@@ -1,6 +1,7 @@
 #: import clear_and_go_to_screen screens.screens.clear_and_go_to_screen
 #: import go_back screens.screens.go_back
 #: import check_date account.regex.check_date
+#: import check_integer account.regex.check_integer
 
 <AccountSettings>:
     MDBoxLayout:
@@ -39,7 +40,7 @@
                 size_hint_x: None
                 width: 200
                 on_focus:
-                    dob.error = True if not check_date(dob.text) else False #TODO: FIX
+                    dob.error = not check_date(dob.text)
 
                 MDTextFieldLeadingIcon:
                     icon: "calendar-clock"
@@ -53,6 +54,8 @@
                 pos_hint: {"center_x": 0.5}
                 size_hint_x: None
                 width: 300
+                on_focus:
+                    max_investment.error = not check_integer(max_investment.text)
 
                 MDTextFieldLeadingIcon:
                     icon: "cash-multiple"
@@ -75,9 +78,9 @@
                 style: "tonal"
                 pos_hint: {"center_x": 0.5}
                 on_press:
-                    dob.text = root.retrieve_account_settings(0)
-                    max_investment = root.retrieve_account_settings(1)
-                    looking_to_invest.active = bool(root.retrieve_account_settings(2))
+                    dob.text = root.retrieve_account_settings()[0]
+                    max_investment.text = str(root.retrieve_account_settings()[1])
+                    looking_to_invest.active = bool(root.retrieve_account_settings()[2])
 
                 MDButtonText:
                     text: "Retrieve settings"

@@ -36,8 +36,8 @@ class AccountSettings(MDScreen):
     def on_log_out(self):
         database.account.remove_from_file()
 
-    def retrieve_account_settings(self, index):
-        value = database.retrieve_account_settings()[index]
+    def retrieve_account_settings(self):
+        value = database.retrieve_account_settings()
         return value
 
     def update_settings(self, dob, max_investment, looking_to_invest):

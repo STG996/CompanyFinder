@@ -71,7 +71,7 @@ class Database:
         {
             "username": self.account.get_username()
         })
-        print(self.account.get_username())
+
         return self.__cursor.fetchone()
 
     def update_account_table(self, dob, max_investment, looking_to_invest):
