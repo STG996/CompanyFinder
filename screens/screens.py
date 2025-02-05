@@ -42,7 +42,6 @@ class AccountSettings(MDScreen):
 
     def update_settings(self, dob, max_investment, looking_to_invest):
         database.update_account_table(dob, max_investment, looking_to_invest)
-        print(dob, max_investment, looking_to_invest)
 
 class CompanyRegistrationScreen(MDScreen):
     pass

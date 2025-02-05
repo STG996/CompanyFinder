@@ -85,7 +85,7 @@
             MDButton:
                 style: "tonal"
                 pos_hint: {"center_x": 0.5}
-                on_press: root.update_settings(dob.text, max_investment.text, looking_to_invest.active)
+                on_press: root.update_settings(dob.text, int(max_investment.text), looking_to_invest.active)
 
                 MDButtonText:
                     text: "Update settings"

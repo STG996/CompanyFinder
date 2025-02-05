@@ -21,9 +21,9 @@ class Account:
         file.close()
 
         try:
-            self._username = lines[USERNAME_INDEX]
-            self._email = lines[EMAIL_INDEX]
-            self._password = lines[PASSWORD_INDEX]
+            self._username = lines[USERNAME_INDEX][:-1]
+            self._email = lines[EMAIL_INDEX][:-1]
+            self._password = lines[PASSWORD_INDEX][:-1]
             self._logged_in = True
         except IndexError:
             self._logged_in = False
@@ -35,6 +35,7 @@ class Account:
         self._username = username
         self._email = email
         self._password = password
+        self._logged_in = True
 
     def remove_from_file(self):
         os.remove(self._file_name)

@@ -75,8 +75,7 @@ class Database:
         return self.__cursor.fetchone()
 
     def update_account_table(self, dob, max_investment, looking_to_invest):
-
-        self.__cursor.execute(f"""
+        self.__cursor.execute("""
         UPDATE Account
         SET DateOfBirth = :dob,
         MaximumInvestment = :max_investment,
@@ -87,11 +86,8 @@ class Database:
             "dob": dob,
             "max_investment": max_investment,
             "looking_to_invest": looking_to_invest,
-            "username": self.account.get_username() # <---- FOUND THE BUG
+            "username": self.account.get_username()
         })
-
-        print(self.account.get_username())
-        print(self.account._username)
 
     # Company Table
 
