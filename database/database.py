@@ -7,9 +7,12 @@ DATABASE_PATH = "database/main.db"
 class Database:
     def __init__(self):
         self.__conn, self.__cursor = self.__connect()
+
         self.__create_account_table()
         self.__create_company_table()
         self.__create_company_account_table()
+        self.__create_matching_table()
+
         self.account = EncryptedAccount()
 
     def __connect(self):
@@ -22,7 +25,7 @@ class Database:
     def __create_account_table(self):
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Account (
-            Username TEXT PRIMARY KEY,
+            AccountUsername TEXT PRIMARY KEY,
             Email TEXT NOT NULL,
             Password TEXT NOT NULL,
             DateOfBirth TEXT,
@@ -33,7 +36,7 @@ class Database:
 
     def add_account(self, username, email, password):
         self.__cursor.execute("""
-        INSERT INTO Account (Username, Email, Password) VALUES (
+        INSERT INTO Account (AccountUsername, Email, Password) VALUES (
             :username,
             :email,
             :password
@@ -66,7 +69,7 @@ class Database:
     def retrieve_account_settings(self):
         self.__cursor.execute("""
         SELECT DateOfBirth, MaximumInvestment, LookingToInvest FROM Account
-        WHERE Username = :username
+        WHERE AccountUsername = :username
         """,
         {
             "username": self.account.get_username()
@@ -80,7 +83,7 @@ class Database:
         SET DateOfBirth = :dob,
         MaximumInvestment = :max_investment,
         LookingToInvest = :looking_to_invest
-        WHERE Username = :username
+        WHERE AccountUsername = :username
         """,
         {
             "dob": dob,
@@ -104,11 +107,11 @@ class Database:
     def __create_company_account_table(self):
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS CompanyAccount (
-            Username,
+            AccountUsername,
             CompanyName,
-            FOREIGN KEY (Username) REFERENCES Account(Username),
+            FOREIGN KEY (Username) REFERENCES Account(AccountUsername),
             FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
-            PRIMARY KEY (Username, CompanyName)
+            PRIMARY KEY (AccountUsername, CompanyName)
         )
         """)
 
@@ -138,6 +141,19 @@ class Database:
              "username": self.account.get_username(),
              "company_name": company_name
         })
+
+    # Matching
+
+    def __create_matching_table(self):
+        self.__cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Matching (
+            CompanyName,
+            InvestorUsername,
+            FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
+            FOREIGN KEY (InvestorUsername) REFERENCES Account(AccountUsername),
+            PRIMARY KEY (CompanyName, InvestorUsername)
+        )
+        """)
 
     def __del__(self):
         self.__conn.close()
