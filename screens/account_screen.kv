@@ -78,9 +78,9 @@
                 style: "tonal"
                 pos_hint: {"center_x": 0.5}
                 on_press:
-                    dob.text = root.retrieve_account_settings()[0]
-                    max_investment.text = str(root.retrieve_account_settings()[1])
-                    looking_to_invest.active = bool(root.retrieve_account_settings()[2])
+                    dob.text = root.retrieve_account_settings(0)
+                    max_investment.text = str(root.retrieve_account_settings(1))
+                    looking_to_invest.active = bool(root.retrieve_account_settings(2))
 
                 MDButtonText:
                     text: "Retrieve settings"
