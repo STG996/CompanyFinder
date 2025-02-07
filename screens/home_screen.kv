@@ -7,7 +7,6 @@
 
         MDTopAppBar:
             type: "small"
-            size_hint_x: 0.99999 # temp fix, no clue why
 
             MDTopAppBarLeadingButtonContainer:
                 MDActionTopAppBarButton:
@@ -17,12 +16,28 @@
             MDTopAppBarTitle:
                 text: "Home"
 
-            MDTopAppBarTrailingButtonContainer:
-                MDActionTopAppBarButton:
-                    icon: "account-circle"
-                    on_press: app.root.current = go_to_screen("home_screen", "account_screen")
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: 16
+            spacing: 32
 
-        BoxLayout:
+            MDCard:
+                style: "filled"
+                padding: 16
+
+                MDLabel:
+                    font_style: "Headline"
+                    role: "small"
+                    text: "Your matches"
+
+            MDCard:
+                style: "filled"
+                padding: 16
+
+                MDLabel:
+                    font_style: "Headline"
+                    role: "small"
+                    text: "My companies"
 
     MDNavigationDrawer:
         id: nav_drawer
@@ -41,3 +56,12 @@
                     text: "Register your company"
 
             MDNavigationDrawerDivider:
+
+            MDNavigationDrawerItem:
+                on_press: app.root.current = go_to_screen("home_screen", "account_screen")
+
+                MDNavigationDrawerItemLeadingIcon:
+                    icon: "account"
+
+                MDNavigationDrawerItemText:
+                    text: "Account settings"

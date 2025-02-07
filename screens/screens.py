@@ -37,11 +37,12 @@ class AccountSettings(MDScreen):
         database.account.remove_from_file()
 
     def retrieve_account_settings(self, index):
-        value = database.retrieve_account_settings()[index]
-        if value is not None:
+        try:
+            value = database.retrieve_account_settings()[index]
             return value
-        else:
+        except TypeError:
             return ""
+
 
     def update_settings(self):
         if not self.ids.dob.error and not self.ids.max_investment.error:

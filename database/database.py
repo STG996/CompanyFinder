@@ -109,7 +109,7 @@ class Database:
         CREATE TABLE IF NOT EXISTS CompanyAccount (
             AccountUsername,
             CompanyName,
-            FOREIGN KEY (Username) REFERENCES Account(AccountUsername),
+            FOREIGN KEY (AccountUsername) REFERENCES Account(AccountUsername),
             FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
             PRIMARY KEY (AccountUsername, CompanyName)
         )
