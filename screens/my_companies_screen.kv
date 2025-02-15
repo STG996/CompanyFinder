@@ -1,0 +1,28 @@
+#: import go_back screens.screens.go_back
+
+<MyCompaniesScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 16
+
+        MDTopAppBar:
+            type: "small"
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_press: app.root.current = go_back()
+
+            MDTopAppBarTitle:
+                text: "My companies"
+
+        MDBoxLayout:
+            orientation: "vertical"
+            spacing: 32
+            size_hint_x: None
+            width: 500
+            pos_hint: {"center_x": 0.5}
+
+            MDScrollView:
+                MDList:
+                    id: company_list

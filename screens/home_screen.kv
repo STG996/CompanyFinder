@@ -37,7 +37,7 @@
                 MDLabel:
                     font_style: "Headline"
                     role: "small"
-                    text: "My companies"
+                    text: "Match requests"
 
     MDNavigationDrawer:
         id: nav_drawer
@@ -56,6 +56,15 @@
                     text: "Register your company"
 
             MDNavigationDrawerDivider:
+
+            MDNavigationDrawerItem:
+                on_press: app.root.current = go_to_screen("home_screen", "my_companies_screen")
+
+                MDNavigationDrawerItemLeadingIcon:
+                    icon: "domain"
+
+                MDNavigationDrawerItemText:
+                    text: "My companies"
 
             MDNavigationDrawerItem:
                 on_press: app.root.current = go_to_screen("home_screen", "account_screen")

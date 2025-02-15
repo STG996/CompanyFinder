@@ -44,6 +44,7 @@ class CompanyFinderApp(MDApp):
         Builder.load_file("screens/home_screen.kv")
         Builder.load_file("screens/account_screen.kv")
         Builder.load_file("screens/company_registration_screen.kv")
+        Builder.load_file("screens/my_companies_screen.kv")
 
         screen_manager = ScreenManager(transition=NoTransition())
         screen_manager.add_widget(screens.SignupScreen(name="signup_screen"))
@@ -51,6 +52,7 @@ class CompanyFinderApp(MDApp):
         screen_manager.add_widget(screens.HomeScreen(name="home_screen"))
         screen_manager.add_widget(screens.AccountSettings(name="account_screen"))
         screen_manager.add_widget(screens.CompanyRegistrationScreen(name="company_registration_screen"))
+        screen_manager.add_widget(screens.MyCompaniesScreen(name="my_companies_screen"))
 
         if logged_in:
             screen_manager.current = "home_screen"

@@ -1,4 +1,5 @@
 #: import go_back screens.screens.go_back
+#:import show_snackbar screens.screens.show_snackbar
 #: import database main.database
 
 <CompanyRegistrationScreen>:
@@ -87,7 +88,7 @@
                 pos_hint: {"center_x": 0.5}
                 on_press:
                     database.register_company(company_name.text, looking_for_investor.active, min_investment.text, min_age.value)
-                    app.root.current = go_back()
+                    show_snackbar("Registered company successfully!")
 
                 MDButtonIcon:
                     icon: "domain-plus"
