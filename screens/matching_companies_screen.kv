@@ -1,0 +1,24 @@
+<MatchingCompaniesScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 16
+
+        MDTopAppBar:
+            type: "small"
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_press: app.root.current = go_back()
+
+            MDTopAppBarTitle:
+                text: "Matching companies"
+
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: 16
+            spacing: 32
+
+            MDScrollView:
+                MDList:
+                    id: matching_companies_list

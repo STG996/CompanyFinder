@@ -1,5 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.list import MDListItem, MDListItemHeadlineText
+from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemLeadingIcon
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.snackbar import MDSnackbar, MDSnackbarSupportingText, MDSnackbarButtonContainer, MDSnackbarCloseButton
 
@@ -74,6 +74,7 @@ class CompanyRegistrationScreen(MDScreen):
 
 class MyCompaniesScreen(MDScreen):
     def on_enter(self):
+        self.ids.company_list.clear_widgets()
         self.ids.company_list.add_widget(
             MDListItem(
                 MDListItemHeadlineText(
@@ -81,3 +82,19 @@ class MyCompaniesScreen(MDScreen):
                 )
             )
         )
+
+class MatchRequestsScreen(MDScreen):
+    pass
+
+class MatchingCompaniesScreen(MDScreen):
+    def on_enter(self):
+        self.ids.matching_companies_list.clear_widgets()
+        potential_matchings = database.return_potential_matchings()
+        for matching in potential_matchings:
+            self.ids.matching_companies_list.add_widget(
+                MDListItem(
+                    MDListItemHeadlineText(
+                        text=matching[0]
+                    )
+                )
+            )

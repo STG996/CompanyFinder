@@ -1,6 +1,7 @@
 import sqlite3
 
 from account.account import EncryptedAccount
+from account.regex import convert_dob_to_age
 
 DATABASE_PATH = "database/main.db"
 
@@ -154,6 +155,27 @@ class Database:
             PRIMARY KEY (CompanyName, InvestorUsername)
         )
         """)
+
+    def return_potential_matchings(self):
+        self.__cursor.execute("""
+        SELECT Company.CompanyName, Company.MinimumInvestorAge, Account.DateOfBirth FROM Company, Account
+        WHERE Account.LookingToInvest = TRUE
+        AND Company.LookingForInvestor = TRUE
+        AND Account.MaximumInvestment >= Company.MinimumAskingInvestment
+        """)
+
+        potential_matchings = self.__cursor.fetchall()
+        for matching in potential_matchings:
+            day, month, year = matching[2].split("/")
+            day = int(day)
+            month = int(month)
+            year = int(year)
+            investor_age = convert_dob_to_age(day, month, year)
+
+            if investor_age < matching[1]:
+                potential_matchings.remove(matching)
+
+        return potential_matchings
 
     def __del__(self):
         self.__conn.close()

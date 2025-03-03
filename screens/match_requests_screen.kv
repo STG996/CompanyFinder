@@ -1,0 +1,22 @@
+#: import go_back screens.screens.go_back
+
+<MatchRequestsScreen>:
+    MDBoxLayout:
+        orientation: "vertical"
+        spacing: 16
+
+        MDTopAppBar:
+            type: "small"
+
+            MDTopAppBarLeadingButtonContainer:
+                MDActionTopAppBarButton:
+                    icon: "arrow-left"
+                    on_press: app.root.current = go_back()
+
+            MDTopAppBarTitle:
+                text: "Match requests"
+
+        MDBoxLayout:
+            orientation: "vertical"
+            padding: 16
+            spacing: 32

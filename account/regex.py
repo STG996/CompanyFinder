@@ -1,4 +1,4 @@
-import re
+import re, datetime
 
 EMAIL_REGEX = r"^[a-zA-Z0-9.%-+_]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 DATE_REGEX = r"^[0-9]{1,2}/[0-9]{1,2}/[0-9]{4}$"
@@ -23,3 +23,15 @@ def check_date(date):
 def check_integer(string):
     valid = re.match(INTEGER_REGEX, string)
     return True if valid else False
+
+def convert_dob_to_age(day, month, year):
+    today = datetime.date.today()
+    if month < today.month:
+        return today.year - year
+    elif month > today.month:
+        return today.year - year - 1
+    else:
+        if day <= today.day:
+            return today.year - year
+        else:
+            return today.year - year - 1
