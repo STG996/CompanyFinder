@@ -165,7 +165,8 @@ class Database:
         """)
 
         potential_matchings = self.__cursor.fetchall()
-        for matching in potential_matchings:
+        temp_copy = potential_matchings.copy()
+        for matching in temp_copy:
             day, month, year = matching[2].split("/")
             day = int(day)
             month = int(month)
