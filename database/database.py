@@ -162,7 +162,9 @@ class Database:
         WHERE Account.LookingToInvest = TRUE
         AND Company.LookingForInvestor = TRUE
         AND Account.MaximumInvestment >= Company.MinimumAskingInvestment
-        """)
+        AND Account.AccountUsername = :username
+        """,
+        {"username": self.account.get_username()})
 
         potential_matchings = self.__cursor.fetchall()
         temp_copy = potential_matchings.copy()
@@ -174,8 +176,10 @@ class Database:
             investor_age = convert_dob_to_age(day, month, year)
 
             if investor_age < matching[1]:
-                potential_matchings.remove(matching)
+                potential_matchings.remove(matching) #doesnt work ask teacher
+                print(matching, "removed")
 
+        print(potential_matchings)
         return potential_matchings
 
     def __del__(self):
