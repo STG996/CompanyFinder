@@ -143,16 +143,24 @@ class Database:
              "company_name": company_name
         })
 
+    def get_owned_companies(self):
+        self.__cursor.execute("""
+        SELECT CompanyName FROM CompanyAccount
+        WHERE AccountUsername = :username
+        """, {"username": self.account.get_username()})
+
+        return self.__cursor.fetchall()
+
     # Matching
 
     def __create_matching_table(self):
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Matching (
+            MatchingId TEXT PRIMARY KEY,
             CompanyName,
             InvestorUsername,
             FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
-            FOREIGN KEY (InvestorUsername) REFERENCES Account(AccountUsername),
-            PRIMARY KEY (CompanyName, InvestorUsername)
+            FOREIGN KEY (InvestorUsername) REFERENCES Account(AccountUsername)
         )
         """)
 
@@ -176,11 +184,28 @@ class Database:
             investor_age = convert_dob_to_age(day, month, year)
 
             if investor_age < matching[1]:
-                potential_matchings.remove(matching) #doesnt work ask teacher
+                potential_matchings.remove(matching)
                 print(matching, "removed")
 
         print(potential_matchings)
         return potential_matchings
+
+    def create_matching(self, company_name):
+        self.__cursor.execute("""
+        INSERT INTO Matching VALUES (
+            :matching_id,
+            :company_name,
+            :investor_username
+        )
+        """, {"matching_id": company_name+self.account.get_username(), "company_name": company_name, "investor_username": self.account.get_username()})
+
+    def get_matchings(self):
+        self.__cursor.execute("""
+        SELECT CompanyName FROM Matching
+        WHERE InvestorUsername = :username
+        """, {"username": self.account.get_username()})
+
+        return self.__cursor.fetchall()
 
     def __del__(self):
         self.__conn.close()

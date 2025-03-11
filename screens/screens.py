@@ -75,13 +75,16 @@ class CompanyRegistrationScreen(MDScreen):
 class MyCompaniesScreen(MDScreen):
     def on_enter(self):
         self.ids.company_list.clear_widgets()
-        self.ids.company_list.add_widget(
-            MDListItem(
-                MDListItemHeadlineText(
-                    text="test"
+        print(database.get_owned_companies())
+        for company in database.get_owned_companies():
+            print(company)
+            self.ids.company_list.add_widget(
+                MDListItem(
+                    MDListItemHeadlineText(
+                        text=company[0]
+                    )
                 )
             )
-        )
 
 class MatchRequestsScreen(MDScreen):
     pass
@@ -91,10 +94,10 @@ class MatchingCompaniesScreen(MDScreen):
         self.ids.matching_companies_list.clear_widgets()
         potential_matchings = database.return_potential_matchings()
         for matching in potential_matchings:
-            self.ids.matching_companies_list.add_widget(
-                MDListItem(
-                    MDListItemHeadlineText(
-                        text=matching[0]
-                    )
+            list_item = MDListItem(
+                MDListItemHeadlineText(
+                    text=matching[0]
                 )
             )
+            list_item.bind(on_release=lambda instance: database.create_matching(matching[0]))
+            self.ids.matching_companies_list.add_widget(list_item)
