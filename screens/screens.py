@@ -1,10 +1,10 @@
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemLeadingIcon
+from kivymd.uix.list import MDListItem, MDListItemHeadlineText
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.snackbar import MDSnackbar, MDSnackbarSupportingText, MDSnackbarButtonContainer, MDSnackbarCloseButton
+from kivymd.uix.snackbar import MDSnackbar, MDSnackbarSupportingText
 
 from account.regex import check_email_validity, check_date, check_integer
 from main import database, previous_screens
+
 
 # Screen stack manipulation
 def go_to_screen(current_screen, new_screen):
