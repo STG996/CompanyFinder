@@ -18,5 +18,11 @@
 
         MDBoxLayout:
             orientation: "vertical"
-            padding: 16
             spacing: 32
+            size_hint_x: None
+            width: 500
+            pos_hint: {"center_x": 0.5}
+
+            MDScrollView:
+                MDList:
+                    id: match_requests_list

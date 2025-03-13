@@ -200,12 +200,22 @@ class Database:
         """, {"matching_id": company_name+self.account.get_username(), "company_name": company_name, "investor_username": self.account.get_username()})
 
     def get_matchings(self):
-        self.__cursor.execute("""
-        SELECT CompanyName FROM Matching
-        WHERE InvestorUsername = :username
-        """, {"username": self.account.get_username()})
+        total_matchings = []
+        owner_companies = self.get_owned_companies()
+        for company in owner_companies:
+            self.__cursor.execute("""
+            SELECT InvestorUsername FROM Matching
+            WHERE CompanyName = :company_name
+            """, {"company_name": company[0]})
 
-        return self.__cursor.fetchall()
+            returned_usernames = self.__cursor.fetchall()
+            if len(returned_usernames) == 0:
+                continue
+
+            for username in returned_usernames:
+                total_matchings.append((username[0], company[0]))
+
+        return total_matchings
 
     def __del__(self):
         self.__conn.close()

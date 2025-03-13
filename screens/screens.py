@@ -87,7 +87,19 @@ class MyCompaniesScreen(MDScreen):
             )
 
 class MatchRequestsScreen(MDScreen):
-    pass
+    def on_enter(self):
+        self.ids.match_requests_list.clear_widgets()
+        match_requests = database.get_matchings()
+        for request in match_requests:
+            print(f"request: {request}")
+            print(f"request[0]: {request[0]}")
+            list_item = MDListItem(
+                MDListItemHeadlineText(
+                    text=request[0]
+                )
+            )
+            self.ids.match_requests_list.add_widget(list_item)
+            # TODO: BIND TO FUNCTIONALITY
 
 class MatchingCompaniesScreen(MDScreen):
     def on_enter(self):
