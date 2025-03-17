@@ -1,4 +1,4 @@
-from kivymd.uix.list import MDListItem, MDListItemHeadlineText
+from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemSupportingText, MDListItemTertiaryText
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.snackbar import MDSnackbar, MDSnackbarSupportingText
 
@@ -51,6 +51,12 @@ class HomeScreen(MDScreen):
     pass
 
 class AccountSettings(MDScreen):
+    def on_enter(self):
+        account_settings = database.retrieve_account_settings()
+        self.ids.dob.text = account_settings[0]
+        self.ids.max_investment.text = str(account_settings[1])
+        self.ids.looking_to_invest.active = bool(account_settings[2])
+
     def on_log_out(self):
         database.account.remove_from_file()
 
@@ -82,6 +88,12 @@ class MyCompaniesScreen(MDScreen):
                 MDListItem(
                     MDListItemHeadlineText(
                         text=company[0]
+                    ),
+                    MDListItemSupportingText(
+                        text=f"Min. investment: ${company[1]}"
+                    ),
+                    MDListItemSupportingText(
+                        text=f"Min. investor age: {company[2]} years"
                     )
                 )
             )
@@ -90,16 +102,22 @@ class MatchRequestsScreen(MDScreen):
     def on_enter(self):
         self.ids.match_requests_list.clear_widgets()
         match_requests = database.get_matchings()
+        print(match_requests)
         for request in match_requests:
             print(f"request: {request}")
             print(f"request[0]: {request[0]}")
             list_item = MDListItem(
                 MDListItemHeadlineText(
                     text=request[0]
+                ),
+                MDListItemSupportingText(
+                    text="Investor email: "+request[1]
+                ),
+                MDListItemTertiaryText(
+                    text="Request for "+request[2]
                 )
             )
             self.ids.match_requests_list.add_widget(list_item)
-            # TODO: BIND TO FUNCTIONALITY
 
 class MatchingCompaniesScreen(MDScreen):
     def on_enter(self):
@@ -113,3 +131,5 @@ class MatchingCompaniesScreen(MDScreen):
             )
             list_item.bind(on_release=lambda instance: database.create_matching(matching[0]))
             self.ids.matching_companies_list.add_widget(list_item)
+
+        show_snackbar("Press on a company to send a match request")

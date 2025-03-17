@@ -145,8 +145,11 @@ class Database:
 
     def get_owned_companies(self):
         self.__cursor.execute("""
-        SELECT CompanyName FROM CompanyAccount
-        WHERE AccountUsername = :username
+        SELECT CompanyAccount.CompanyName, 
+        Company.MinimumAskingInvestment,
+        Company.MinimumInvestorAge FROM Company, CompanyAccount
+        WHERE CompanyAccount.AccountUsername = :username
+        AND Company.CompanyName = CompanyAccount.CompanyName
         """, {"username": self.account.get_username()})
 
         return self.__cursor.fetchall()
@@ -166,11 +169,13 @@ class Database:
 
     def return_potential_matchings(self):
         self.__cursor.execute("""
-        SELECT Company.CompanyName, Company.MinimumInvestorAge, Account.DateOfBirth FROM Company, Account
+        SELECT Company.CompanyName, Company.MinimumInvestorAge, Account.DateOfBirth FROM Company, Account, CompanyAccount
         WHERE Account.LookingToInvest = TRUE
         AND Company.LookingForInvestor = TRUE
         AND Account.MaximumInvestment >= Company.MinimumAskingInvestment
         AND Account.AccountUsername = :username
+        AND Account.AccountUsername != CompanyAccount.AccountUsername
+        ORDER BY Company.MinimumAskingInvestment DESC
         """,
         {"username": self.account.get_username()})
 
@@ -204,16 +209,17 @@ class Database:
         owner_companies = self.get_owned_companies()
         for company in owner_companies:
             self.__cursor.execute("""
-            SELECT InvestorUsername FROM Matching
-            WHERE CompanyName = :company_name
+            SELECT Matching.InvestorUsername, Account.Email FROM Matching, Account
+            WHERE Matching.CompanyName = :company_name
+            AND Account.AccountUsername = Matching.InvestorUsername
             """, {"company_name": company[0]})
 
-            returned_usernames = self.__cursor.fetchall()
-            if len(returned_usernames) == 0:
+            returned_matchings = self.__cursor.fetchall()
+            if len(returned_matchings) == 0:
                 continue
 
-            for username in returned_usernames:
-                total_matchings.append((username[0], company[0]))
+            for matching in returned_matchings:
+                total_matchings.append((matching[0], matching[1], company[0]))
 
         return total_matchings
 
