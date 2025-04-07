@@ -13,6 +13,10 @@ creating a seamless flow of collaboration and easing social interaction in the b
 ### Requirements to run
 Python 3.12 and KivyMD 2.0.1 were used alongside their respective dependencies.
 
+```
+pip install kivymd2==2.0.1
+```
+
 SQLite3,
 which is part of the Python standard library,
 was also used.
