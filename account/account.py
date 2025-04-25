@@ -25,7 +25,7 @@ class Account:
             self._email = lines[EMAIL_INDEX][:-1]
             self._password = lines[PASSWORD_INDEX][:-1]
             self._logged_in = True
-        except IndexError:
+        except:
             self._logged_in = False
 
     def add_to_file(self, username, email, password):

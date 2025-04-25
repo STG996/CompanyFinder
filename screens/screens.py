@@ -1,3 +1,6 @@
+import sqlite3
+from functools import partial
+
 from kivymd.uix.list import MDListItem, MDListItemHeadlineText, MDListItemSupportingText, MDListItemTertiaryText
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.snackbar import MDSnackbar, MDSnackbarSupportingText
@@ -33,8 +36,11 @@ class SignupScreen(MDScreen):
     def create_account(self, username, email, password):
         is_email_valid = check_email_validity(email)
         if is_email_valid:
-            database.add_account(username, email, password)
-            self.parent.current = clear_and_go_to_screen("home_screen")
+            try:
+                database.add_account(username, email, password)
+                self.parent.current = clear_and_go_to_screen("home_screen")
+            except sqlite3.IntegrityError:
+                show_snackbar("Username or email already in use!")
         else:
             show_snackbar("Invalid email")
 
@@ -52,21 +58,25 @@ class HomeScreen(MDScreen):
 
 class AccountSettings(MDScreen):
     def on_enter(self):
-        account_settings = database.retrieve_account_settings()
-        self.ids.dob.text = account_settings[0]
-        self.ids.max_investment.text = str(account_settings[1])
-        self.ids.looking_to_invest.active = bool(account_settings[2])
+        try:
+            account_settings = database.retrieve_account_settings()
+            self.ids.dob.text = account_settings[0]
+            self.ids.max_investment.text = str(account_settings[1])
+            self.ids.looking_to_invest.active = bool(account_settings[2])
+        except:
+            pass # If no values entered yet, do nothing
 
     def on_log_out(self):
         database.account.remove_from_file()
 
     def retrieve_account_settings(self, index):
-        try:
-            value = database.retrieve_account_settings()[index]
-            return value
-        except TypeError:
+        value = database.retrieve_account_settings()[index]
+        if value == None:
+            show_snackbar("No settings were found")
+            if index == 2:
+                return False
             return ""
-
+        return value
 
     def update_settings(self):
         if not self.ids.dob.error and not self.ids.max_investment.error and check_date(self.ids.dob.text) and check_integer(self.ids.max_investment.text):
@@ -76,7 +86,17 @@ class AccountSettings(MDScreen):
             show_snackbar("Invalid date of birth or investment amount")
 
 class CompanyRegistrationScreen(MDScreen):
-    pass
+    def register_company(self):
+        if check_integer(self.ids.min_investment.text):
+            try:
+                database.register_company(self.ids.company_name.text, self.ids.looking_for_investor.active,
+                                          self.ids.min_investment.text, self.ids.min_age.value)
+                show_snackbar("Company registered successfully!")
+                self.parent.current = go_back()
+            except sqlite3.IntegrityError:
+                show_snackbar("Company name already taken")
+        else:
+            show_snackbar("Invalid minimum investment amount")
 
 class MyCompaniesScreen(MDScreen):
     def on_enter(self):
@@ -121,6 +141,8 @@ class MatchRequestsScreen(MDScreen):
 
 class MatchingCompaniesScreen(MDScreen):
     def on_enter(self):
+        show_snackbar("Press on a company to send a match request")
+
         self.ids.matching_companies_list.clear_widgets()
         potential_matchings = database.return_potential_matchings()
         for matching in potential_matchings:
@@ -129,7 +151,13 @@ class MatchingCompaniesScreen(MDScreen):
                     text=matching[0]
                 )
             )
-            list_item.bind(on_release=lambda instance: database.create_matching(matching[0]))
+            list_item.bind(on_release=partial(self.create_matching_and_show_snackbar, matching[0]))
             self.ids.matching_companies_list.add_widget(list_item)
 
-        show_snackbar("Press on a company to send a match request")
+    def create_matching_and_show_snackbar(self, *args):
+        print(*args)
+        try:
+            database.create_matching(args[0])
+            show_snackbar("Match request sent!")
+        except:
+            show_snackbar("Match request already sent")

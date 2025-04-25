@@ -1,6 +1,7 @@
 #: import go_back screens.screens.go_back
-#:import show_snackbar screens.screens.show_snackbar
+#: import show_snackbar screens.screens.show_snackbar
 #: import database main.database
+#: import check_integer account.regex.check_integer
 
 <CompanyRegistrationScreen>:
     MDBoxLayout:
@@ -46,6 +47,8 @@
                 size_hint_x: None
                 width: 350
                 pos_hint: {"center_x": 0.5}
+                on_focus:
+                    min_investment.error = not check_integer(min_investment.text)
 
                 MDTextFieldLeadingIcon:
                     icon: "account-cash"
@@ -86,9 +89,7 @@
             MDButton:
                 style: "elevated"
                 pos_hint: {"center_x": 0.5}
-                on_press:
-                    database.register_company(company_name.text, looking_for_investor.active, min_investment.text, min_age.value)
-                    show_snackbar("Registered company successfully!")
+                on_press: root.register_company()
 
                 MDButtonIcon:
                     icon: "domain-plus"

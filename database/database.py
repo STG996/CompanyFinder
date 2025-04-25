@@ -27,7 +27,7 @@ class Database:
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Account (
             AccountUsername TEXT PRIMARY KEY,
-            Email TEXT NOT NULL,
+            Email TEXT NOT NULL UNIQUE,
             Password TEXT NOT NULL,
             DateOfBirth TEXT,
             MaximumInvestment INTEGER,
@@ -159,11 +159,11 @@ class Database:
     def __create_matching_table(self):
         self.__cursor.execute("""
         CREATE TABLE IF NOT EXISTS Matching (
-            MatchingId TEXT PRIMARY KEY,
             CompanyName,
             InvestorUsername,
             FOREIGN KEY (CompanyName) REFERENCES Company(CompanyName),
             FOREIGN KEY (InvestorUsername) REFERENCES Account(AccountUsername)
+            PRIMARY KEY (CompanyName, InvestorUsername)
         )
         """)
 
@@ -175,6 +175,7 @@ class Database:
         AND Account.MaximumInvestment >= Company.MinimumAskingInvestment
         AND Account.AccountUsername = :username
         AND Account.AccountUsername != CompanyAccount.AccountUsername
+        AND Company.CompanyName = CompanyAccount.CompanyName
         ORDER BY Company.MinimumAskingInvestment DESC
         """,
         {"username": self.account.get_username()})
@@ -198,11 +199,10 @@ class Database:
     def create_matching(self, company_name):
         self.__cursor.execute("""
         INSERT INTO Matching VALUES (
-            :matching_id,
             :company_name,
             :investor_username
         )
-        """, {"matching_id": company_name+self.account.get_username(), "company_name": company_name, "investor_username": self.account.get_username()})
+        """, {"company_name": company_name, "investor_username": self.account.get_username()})
 
     def get_matchings(self):
         total_matchings = []

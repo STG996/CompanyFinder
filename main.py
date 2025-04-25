@@ -11,7 +11,7 @@ database = Database()
 try:
     database.account.retrieve_from_file()
     logged_in = database.account.get_logged_in()
-except:
+except FileNotFoundError:
     logged_in = False
 
 previous_screens = Stack()
@@ -43,10 +43,8 @@ class CompanyFinderApp(MDApp):
 
         if logged_in:
             screen_manager.current = "home_screen"
-            previous_screens.push("home_screen")
         else:
             screen_manager.current = "signup_screen"
-            previous_screens.push("signup_screen")
 
         return screen_manager
 
